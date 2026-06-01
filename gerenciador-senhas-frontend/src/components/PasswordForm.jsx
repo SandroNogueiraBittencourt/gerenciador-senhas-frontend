@@ -27,7 +27,7 @@ function PasswordForm({ categorias, usuarioId, senhaEditando, onSalvar, onCancel
     setForm(estadoInicial);
   }
   return (
-    <form className="form-card" onSubmit={enviar}>
+    <form className="form-card" onSubmit={enviar} autoComplete="off">
       <h2>{senhaEditando ? "Editar senha" : "Cadastrar nova senha"}</h2>
       <div className="form-grid">
         <label>Nome do serviço *<input name="nomeServico" value={form.nomeServico} onChange={alterarCampo} placeholder="Ex: GitHub" required /></label>

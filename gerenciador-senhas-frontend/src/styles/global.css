@@ -638,3 +638,70 @@ LOGO MINIMALISTA
   object-fit: cover;
   border-radius: 12px;
 }
+/* =================================
+CRITÉRIOS DE CONFIRMAÇÃO DE SENHA
+   =================================*/
+
+   .password-criteria-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-top: 4px;
+}
+
+.password-criteria-box p {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.password-criteria-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.criterio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.criterio span {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.criterio.valido {
+  color: #166534;
+}
+
+.criterio.valido span {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.criterio.invalido {
+  color: #64748b;
+}
+
+.criterio.invalido span {
+  background: #e2e8f0;
+  color: #64748b;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

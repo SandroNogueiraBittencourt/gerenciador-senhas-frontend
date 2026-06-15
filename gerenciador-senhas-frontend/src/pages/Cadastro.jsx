@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Eye, EyeOff, UserPlus } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { cadastrarUsuario } from "../services/authService";
 import logoNexoVault from "../assets/logo-nexovault.png";
 
@@ -18,6 +18,26 @@ function Cadastro() {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false);
 
+  const criteriosSenha = {
+    tamanhoMinimo: form.senha.length >= 8,
+    letraMaiuscula: /[A-Z]/.test(form.senha),
+    letraMinuscula: /[a-z]/.test(form.senha),
+    numero: /[0-9]/.test(form.senha),
+    caractereEspecial: /[^A-Za-z0-9]/.test(form.senha),
+    senhasConferem:
+      form.senha.length > 0 &&
+      form.confirmarSenha.length > 0 &&
+      form.senha === form.confirmarSenha,
+  };
+
+  const senhaValida =
+    criteriosSenha.tamanhoMinimo &&
+    criteriosSenha.letraMaiuscula &&
+    criteriosSenha.letraMinuscula &&
+    criteriosSenha.numero &&
+    criteriosSenha.caractereEspecial &&
+    criteriosSenha.senhasConferem;
+
   function alterarCampo(event) {
     const { name, value } = event.target;
 
@@ -31,8 +51,8 @@ function Cadastro() {
     event.preventDefault();
     setErro("");
 
-    if (form.senha !== form.confirmarSenha) {
-      setErro("As senhas não conferem.");
+    if (!senhaValida) {
+      setErro("A senha não atende aos critérios de segurança.");
       return;
     }
 
@@ -44,16 +64,29 @@ function Cadastro() {
       });
 
       navigate("/login");
-    } catch {
+    } catch (error) {
       setErro("Não foi possível cadastrar o usuário.");
     }
+  }
+
+  function ItemCriterio({ valido, texto }) {
+    return (
+      <li className={valido ? "criterio valido" : "criterio invalido"}>
+        <span>{valido ? "✓" : "•"}</span>
+        {texto}
+      </li>
+    );
   }
 
   return (
     <main className="auth-page">
       <section className="auth-card">
-        <div>
-          < img src={logoNexoVault} alt="Logo NexoVault" className="auth-logo" />
+        <div className="auth-logo-wrapper">
+          <img
+            src={logoNexoVault}
+            alt="Logo NexoVault"
+            className="auth-logo"
+          />
         </div>
 
         <h1>Criar conta</h1>
@@ -68,7 +101,6 @@ function Cadastro() {
               name="nome"
               value={form.nome}
               onChange={alterarCampo}
-              placeholder="Seu nome"
               required
             />
           </label>
@@ -80,7 +112,6 @@ function Cadastro() {
               type="email"
               value={form.email}
               onChange={alterarCampo}
-              placeholder="seuemail@email.com"
               required
             />
           </label>
@@ -93,15 +124,13 @@ function Cadastro() {
                 type={mostrarSenha ? "text" : "password"}
                 value={form.senha}
                 onChange={alterarCampo}
-                placeholder="Digite sua senha"
                 required
               />
 
               <button
                 type="button"
                 className="password-toggle-button"
-                onClick={() => setMostrarSenha((atual) => !atual)}
-                title={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                onClick={() => setMostrarSenha(!mostrarSenha)}
                 aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
               >
                 {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -117,7 +146,6 @@ function Cadastro() {
                 type={mostrarConfirmarSenha ? "text" : "password"}
                 value={form.confirmarSenha}
                 onChange={alterarCampo}
-                placeholder="Confirme sua senha"
                 required
               />
 
@@ -125,12 +153,7 @@ function Cadastro() {
                 type="button"
                 className="password-toggle-button"
                 onClick={() =>
-                  setMostrarConfirmarSenha((atual) => !atual)
-                }
-                title={
-                  mostrarConfirmarSenha
-                    ? "Ocultar confirmação de senha"
-                    : "Mostrar confirmação de senha"
+                  setMostrarConfirmarSenha(!mostrarConfirmarSenha)
                 }
                 aria-label={
                   mostrarConfirmarSenha
@@ -147,7 +170,47 @@ function Cadastro() {
             </div>
           </label>
 
-          <button className="btn btn-primary full-button" type="submit">
+          <div className="password-criteria-box">
+            <p>Critérios da senha:</p>
+
+            <ul>
+              <ItemCriterio
+                valido={criteriosSenha.tamanhoMinimo}
+                texto="Mínimo de 8 caracteres"
+              />
+
+              <ItemCriterio
+                valido={criteriosSenha.letraMaiuscula}
+                texto="Pelo menos uma letra maiúscula"
+              />
+
+              <ItemCriterio
+                valido={criteriosSenha.letraMinuscula}
+                texto="Pelo menos uma letra minúscula"
+              />
+
+              <ItemCriterio
+                valido={criteriosSenha.numero}
+                texto="Pelo menos um número"
+              />
+
+              <ItemCriterio
+                valido={criteriosSenha.caractereEspecial}
+                texto="Pelo menos um caractere especial"
+              />
+
+              <ItemCriterio
+                valido={criteriosSenha.senhasConferem}
+                texto="Senha e confirmação devem ser iguais"
+              />
+            </ul>
+          </div>
+
+          <button
+            className="btn btn-primary full-button"
+            type="submit"
+            disabled={!senhaValida}
+          >
             Cadastrar
           </button>
         </form>

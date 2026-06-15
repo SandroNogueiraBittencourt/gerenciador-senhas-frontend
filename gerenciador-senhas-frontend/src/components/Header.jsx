@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logoutUsuario } from "../services/authService";
-import logoNexoVaultMinimalista from "../assets/logo-nexovault-minimalista.png";
+import logoNexoVaultMinimalista from "../assets/logo-nexovault-minimalista-transparent.svg";
 
 function Header({ usuario }) {
   const navigate = useNavigate();

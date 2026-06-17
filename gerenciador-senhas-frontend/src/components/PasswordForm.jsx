@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
 const estadoInicial = {
@@ -10,6 +10,51 @@ const estadoInicial = {
   categoriaId: "",
 };
 
+function calcularCriteriosSenha(senha) {
+  return {
+    tamanhoMinimo: senha.length >= 8,
+    letraMaiuscula: /[A-Z]/.test(senha),
+    letraMinuscula: /[a-z]/.test(senha),
+    numero: /[0-9]/.test(senha),
+    caractereEspecial: /[^A-Za-z0-9]/.test(senha),
+  };
+}
+
+function calcularForcaSenha(criterios) {
+  const totalAtendidos = Object.values(criterios).filter(Boolean).length;
+
+  if (totalAtendidos <= 2) {
+    return {
+      texto: "Fraca",
+      classe: "fraca",
+      porcentagem: 33,
+    };
+  }
+
+  if (totalAtendidos <= 4) {
+    return {
+      texto: "Média",
+      classe: "media",
+      porcentagem: 66,
+    };
+  }
+
+  return {
+    texto: "Forte",
+    classe: "forte",
+    porcentagem: 100,
+  };
+}
+
+function ItemCriterio({ valido, texto }) {
+  return (
+    <li className={valido ? "criterio valido" : "criterio invalido"}>
+      <span>{valido ? "✓" : "•"}</span>
+      {texto}
+    </li>
+  );
+}
+
 function PasswordForm({
   categorias,
   usuarioId,
@@ -19,6 +64,16 @@ function PasswordForm({
 }) {
   const [form, setForm] = useState(estadoInicial);
   const [mostrarSenha, setMostrarSenha] = useState(false);
+
+  const criteriosSenha = useMemo(
+    () => calcularCriteriosSenha(form.senha),
+    [form.senha]
+  );
+
+  const forcaSenha = useMemo(
+    () => calcularForcaSenha(criteriosSenha),
+    [criteriosSenha]
+  );
 
   useEffect(() => {
     if (senhaEditando) {
@@ -119,6 +174,51 @@ function PasswordForm({
               {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
+
+          {form.senha && (
+            <div className="password-strength-box">
+              <div className="password-strength-header">
+                <span>Força da senha:</span>
+                <strong className={`strength-label ${forcaSenha.classe}`}>
+                  {forcaSenha.texto}
+                </strong>
+              </div>
+
+              <div className="strength-bar">
+                <div
+                  className={`strength-bar-fill ${forcaSenha.classe}`}
+                  style={{ width: `${forcaSenha.porcentagem}%` }}
+                />
+              </div>
+
+              <ul className="password-criteria-list">
+                <ItemCriterio
+                  valido={criteriosSenha.tamanhoMinimo}
+                  texto="Mínimo de 8 caracteres"
+                />
+
+                <ItemCriterio
+                  valido={criteriosSenha.letraMaiuscula}
+                  texto="Pelo menos uma letra maiúscula"
+                />
+
+                <ItemCriterio
+                  valido={criteriosSenha.letraMinuscula}
+                  texto="Pelo menos uma letra minúscula"
+                />
+
+                <ItemCriterio
+                  valido={criteriosSenha.numero}
+                  texto="Pelo menos um número"
+                />
+
+                <ItemCriterio
+                  valido={criteriosSenha.caractereEspecial}
+                  texto="Pelo menos um caractere especial"
+                />
+              </ul>
+            </div>
+          )}
         </label>
 
         <label>

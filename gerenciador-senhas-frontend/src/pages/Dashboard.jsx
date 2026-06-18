@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import PasswordCard from "../components/PasswordCard";
 import PasswordForm from "../components/PasswordForm";
 import CategoryManager from "../components/CategoryManager";
+import MfaManager from "../components/MfaManager";
 import { getUsuarioLogado } from "../services/authService";
 import {
   atualizarSenha,
@@ -171,6 +172,8 @@ function Dashboard() {
             onAtualizar={editarCategoria}
             onExcluir={removerCategoria}
           />
+
+          <MfaManager />
         </aside>
 
         <section className="content">

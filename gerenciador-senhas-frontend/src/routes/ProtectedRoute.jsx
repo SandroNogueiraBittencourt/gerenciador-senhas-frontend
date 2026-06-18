@@ -1,11 +1,14 @@
 import { Navigate } from "react-router-dom";
-import { getUsuarioLogado } from "../services/authService";
+import { getTokenAcesso, getUsuarioLogado } from "../services/authService";
 
 function ProtectedRoute({ children }) {
   const usuario = getUsuarioLogado();
-  if (!usuario) {
+  const token = getTokenAcesso();
+
+  if (!usuario || !token) {
     return <Navigate to="/login" replace />;
   }
+
   return children;
 }
 

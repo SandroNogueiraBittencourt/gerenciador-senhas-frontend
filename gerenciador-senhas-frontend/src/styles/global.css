@@ -888,7 +888,7 @@ CATEGORIAS
 }
 
 .category-info strong {
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 .category-info span {
@@ -976,4 +976,129 @@ CATEGORIAS
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+.mfa-manager {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  display: grid;
+  gap: 14px;
+}
+
+.mfa-manager-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mfa-manager-header h3 {
+  margin: 0 0 6px;
+}
+
+.mfa-manager-header p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.mfa-badge {
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.mfa-badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.mfa-badge.inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.mfa-setup-box {
+  display: grid;
+  gap: 12px;
+}
+
+.mfa-setup-box p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+.mfa-secret-box {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #f8fafc;
+}
+
+.mfa-secret-box code {
+  color: var(--secondary);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.mfa-uri-details summary {
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.mfa-disable-form {
+  display: grid;
+  gap: 12px;
+}
+
+.mfa-login-icon {
+  display: flex;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+
+/* =================================
+QRCODE MFA
+   =================================*/
+
+   .mfa-qrcode-area {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.mfa-qrcode-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.mfa-qrcode-card svg {
+  display: block;
+  width: 220px;
+  height: 220px;
+}
+
+.mfa-qrcode-help {
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+  margin: 0;
 }

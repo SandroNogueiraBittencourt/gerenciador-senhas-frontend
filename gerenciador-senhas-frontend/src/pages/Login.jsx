@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LockKeyhole } from "lucide-react";
-import { Eye, EyeOff, UserPlus } from "lucide-react";
-import { loginUsuario } from "../services/authService";
+import { Eye, EyeOff, ShieldCheck } from "lucide-react";
+import { loginUsuario, verificarMfaLogin } from "../services/authService";
 import logoNexoVault from "../assets/logo-nexovault-transparent.svg";
 
 function Login() {
@@ -13,6 +12,9 @@ function Login() {
     senha: "",
   });
 
+  const [codigoMfa, setCodigoMfa] = useState("");
+  const [mfaToken, setMfaToken] = useState("");
+  const [mfaPendente, setMfaPendente] = useState(false);
   const [erro, setErro] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
@@ -30,11 +32,38 @@ function Login() {
     setErro("");
 
     try {
-      await loginUsuario(form);
+      const resposta = await loginUsuario(form);
+
+      if (resposta.status === "MFA_REQUIRED") {
+        setMfaToken(resposta.mfaToken);
+        setMfaPendente(true);
+        setCodigoMfa("");
+        return;
+      }
+
       navigate("/dashboard");
     } catch (error) {
       setErro("E-mail ou senha inválidos.");
     }
+  }
+
+  async function confirmarMfa(event) {
+    event.preventDefault();
+    setErro("");
+
+    try {
+      await verificarMfaLogin(mfaToken, codigoMfa);
+      navigate("/dashboard");
+    } catch (error) {
+      setErro("Código MFA inválido ou expirado.");
+    }
+  }
+
+  function voltarParaLogin() {
+    setMfaPendente(false);
+    setMfaToken("");
+    setCodigoMfa("");
+    setErro("");
   }
 
   return (
@@ -49,52 +78,92 @@ function Login() {
         </div>
 
         <h1>Gerenciador de Senhas</h1>
-        <p>Acesse sua conta para gerenciar suas senhas.</p>
+        <p>
+          {mfaPendente
+            ? "Digite o código do aplicativo autenticador."
+            : "Acesse sua conta para gerenciar suas senhas."}
+        </p>
 
         {erro && <div className="alert alert-error">{erro}</div>}
 
-        <form onSubmit={entrar}>
-          <label>
-            E-mail
-            <input
-              name="email"
-              type="email"
-              value={form.email}
-              onChange={alterarCampo}
-              required
-            />
-          </label>
-
-          <label>
-            Senha
-            <div className="password-input-wrapper">
+        {!mfaPendente ? (
+          <form onSubmit={entrar}>
+            <label>
+              E-mail
               <input
-                name="senha"
-                type={mostrarSenha ? "text" : "password"}
-                value={form.senha}
+                name="email"
+                type="email"
+                value={form.email}
                 onChange={alterarCampo}
                 required
               />
+            </label>
 
-              <button
-                type="button"
-                className="password-toggle-button"
-                onClick={() => setMostrarSenha(!mostrarSenha)}
-                aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
-              >
-                {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+            <label>
+              Senha
+              <div className="password-input-wrapper">
+                <input
+                  name="senha"
+                  type={mostrarSenha ? "text" : "password"}
+                  value={form.senha}
+                  onChange={alterarCampo}
+                  required
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle-button"
+                  onClick={() => setMostrarSenha(!mostrarSenha)}
+                  aria-label={mostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                >
+                  {mostrarSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </label>
+
+            <button className="btn btn-primary full-button" type="submit">
+              Entrar
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={confirmarMfa}>
+            <div className="mfa-login-icon">
+              <ShieldCheck size={36} />
             </div>
-          </label>
 
-          <button className="btn btn-primary full-button" type="submit">
-            Entrar
-          </button>
-        </form>
+            <label>
+              Código MFA
+              <input
+                value={codigoMfa}
+                onChange={(event) =>
+                  setCodigoMfa(event.target.value.replace(/\D/g, "").slice(0, 6))
+                }
+                placeholder="000000"
+                inputMode="numeric"
+                maxLength={6}
+                required
+              />
+            </label>
 
-        <p className="auth-link">
-          Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
-        </p>
+            <button className="btn btn-primary full-button" type="submit">
+              Verificar código
+            </button>
+
+            <button
+              className="btn btn-outline full-button"
+              type="button"
+              onClick={voltarParaLogin}
+            >
+              Voltar
+            </button>
+          </form>
+        )}
+
+        {!mfaPendente && (
+          <p className="auth-link">
+            Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
+          </p>
+        )}
       </section>
     </main>
   );

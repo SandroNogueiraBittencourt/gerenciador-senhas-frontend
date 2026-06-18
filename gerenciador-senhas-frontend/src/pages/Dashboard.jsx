@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import Header from "../components/Header";
 import PasswordCard from "../components/PasswordCard";
 import PasswordForm from "../components/PasswordForm";
-import CategoryForm from "../components/CategoryForm";
+import CategoryManager from "../components/CategoryManager";
 import { getUsuarioLogado } from "../services/authService";
 import {
   atualizarSenha,
@@ -10,7 +10,12 @@ import {
   excluirSenha,
   listarSenhas,
 } from "../services/passwordService";
-import { cadastrarCategoria, listarCategorias } from "../services/categoryService";
+import {
+  atualizarCategoria,
+  cadastrarCategoria,
+  excluirCategoria,
+  listarCategorias,
+} from "../services/categoryService";
 
 function Dashboard() {
   const usuario = getUsuarioLogado();
@@ -47,12 +52,7 @@ function Dashboard() {
     return senhas.filter((item) => {
       const correspondeBusca =
         !termo ||
-        [
-          item.nomeServico,
-          item.url,
-          item.loginServico,
-          item.categoriaNome,
-        ]
+        [item.nomeServico, item.url, item.loginServico, item.categoriaNome]
           .filter(Boolean)
           .some((valor) => valor.toLowerCase().includes(termo));
 
@@ -117,6 +117,39 @@ function Dashboard() {
     }
   }
 
+  async function editarCategoria(id, dados) {
+    setMensagem("");
+    setErro("");
+
+    try {
+      await atualizarCategoria(id, dados);
+      setMensagem("Categoria atualizada com sucesso.");
+      await carregarDados();
+    } catch (error) {
+      setErro("Erro ao atualizar categoria.");
+    }
+  }
+
+  async function removerCategoria(id) {
+    setMensagem("");
+    setErro("");
+
+    try {
+      await excluirCategoria(id, usuario.id);
+      setMensagem("Categoria excluída com sucesso.");
+
+      if (categoriaFiltro === String(id)) {
+        setCategoriaFiltro("todas");
+      }
+
+      await carregarDados();
+    } catch (error) {
+      setErro(
+        "Erro ao excluir categoria. Verifique se ela está vinculada a alguma senha."
+      );
+    }
+  }
+
   return (
     <main className="dashboard">
       <Header usuario={usuario} />
@@ -131,7 +164,13 @@ function Dashboard() {
             onCancelar={() => setSenhaEditando(null)}
           />
 
-          <CategoryForm usuarioId={usuario.id} onCadastrar={adicionarCategoria} />
+          <CategoryManager
+            categorias={categorias}
+            usuarioId={usuario.id}
+            onCadastrar={adicionarCategoria}
+            onAtualizar={editarCategoria}
+            onExcluir={removerCategoria}
+          />
         </aside>
 
         <section className="content">

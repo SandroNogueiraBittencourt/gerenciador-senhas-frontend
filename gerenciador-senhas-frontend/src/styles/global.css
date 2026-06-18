@@ -839,3 +839,141 @@ FILTROS DO DASHBORD
     align-items: flex-start;
   }
 }
+
+/* =================================
+CATEGORIAS
+   =================================*/
+
+.category-manager {
+  display: grid;
+  gap: 16px;
+}
+
+.category-list-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.category-list-box h4 {
+  margin: 0 0 14px;
+}
+
+.category-empty {
+  color: var(--muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.category-list {
+  display: grid;
+  gap: 10px;
+}
+
+.category-item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.category-info {
+  display: grid;
+  gap: 4px;
+}
+
+.category-info strong {
+  color: var(--primary);
+}
+
+.category-info span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.category-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.category-edit-form {
+  width: 100%;
+  display: grid;
+  gap: 10px;
+}
+
+.category-edit-form .category-actions {
+  justify-content: flex-end;
+}
+
+.danger-icon {
+  color: var(--danger);
+}
+
+.danger-icon:hover {
+  color: var(--danger-dark);
+}
+
+.filters-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.category-filter {
+  max-width: 240px;
+  margin-top: 0;
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.clear-filters-button {
+  background: transparent;
+  color: var(--primary);
+  font-weight: 800;
+  border: none;
+  padding: 0;
+}
+
+.clear-filters-button:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 680px) {
+  .filters-area {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .category-filter {
+    max-width: 100%;
+  }
+
+  .filter-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .category-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

@@ -584,11 +584,12 @@ label {
     width: 100%;
   }
 }
+
 /*======================
   VISUALIZAR SENHA CADASTRO
   ======================
 */
- .password-input-wrapper {
+.password-input-wrapper {
   position: relative;
   display: flex;
   align-items: center;
@@ -633,16 +634,17 @@ LOGO MINIMALISTA
 }
 
 .brand-logo {
-  width: 200px;  
+  width: 200px;
   height: 70px;
   object-fit: cover;
   border-radius: 12px;
 }
+
 /* =================================
 CRITÉRIOS DE CONFIRMAÇÃO DE SENHA
    =================================*/
 
-   .password-criteria-box {
+.password-criteria-box {
   background: #f8fafc;
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -709,7 +711,7 @@ CRITÉRIOS DE CONFIRMAÇÃO DE SENHA
 /* =================================
 SENHAS FRACAS, MÉDIAS E FORTES
    =================================*/
-   .password-strength-box {
+.password-strength-box {
   margin-top: 10px;
   background: #f8fafc;
   border: 1px solid var(--border);
@@ -780,4 +782,60 @@ SENHAS FRACAS, MÉDIAS E FORTES
   margin: 0;
   display: grid;
   gap: 8px;
+}
+
+/* =================================
+FILTROS DO DASHBORD
+   =================================*/
+.filters-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.category-filter {
+  max-width: 240px;
+  margin-top: 0;
+}
+
+.filter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.clear-filters-button {
+  background: transparent;
+  color: var(--primary);
+  font-weight: 800;
+  border: none;
+  padding: 0;
+}
+
+.clear-filters-button:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
+}
+
+@media (max-width: 680px) {
+  .filters-area {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .category-filter {
+    max-width: 100%;
+  }
+
+  .filter-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

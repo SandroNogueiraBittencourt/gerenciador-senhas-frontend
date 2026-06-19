@@ -1,7 +1,7 @@
 import api from "./api";
 
-export async function listarCategorias(usuarioId) {
-  const response = await api.get(`/categories?usuarioId=${usuarioId}`);
+export async function listarCategorias() {
+  const response = await api.get("/categories");
   return response.data;
 }
 
@@ -15,6 +15,6 @@ export async function atualizarCategoria(id, dados) {
   return response.data;
 }
 
-export async function excluirCategoria(id, usuarioId) {
-  await api.delete(`/categories/${id}?usuarioId=${usuarioId}`);
+export async function excluirCategoria(id) {
+  await api.delete(`/categories/${id}`);
 }

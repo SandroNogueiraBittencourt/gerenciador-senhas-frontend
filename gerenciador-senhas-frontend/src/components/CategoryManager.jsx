@@ -3,7 +3,6 @@ import { useState } from "react";
 
 function CategoryManager({
   categorias,
-  usuarioId,
   onCadastrar,
   onAtualizar,
   onExcluir,
@@ -26,7 +25,6 @@ function CategoryManager({
     await onCadastrar({
       nome: nome.trim(),
       descricao: descricao.trim(),
-      usuarioId,
     });
 
     setNome("");
@@ -57,7 +55,6 @@ function CategoryManager({
     await onAtualizar(categoriaId, {
       nome: formEdicao.nome.trim(),
       descricao: formEdicao.descricao.trim(),
-      usuarioId,
     });
 
     cancelarEdicao();

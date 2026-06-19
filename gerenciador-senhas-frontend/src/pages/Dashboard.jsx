@@ -32,8 +32,8 @@ function Dashboard() {
   async function carregarDados() {
     try {
       const [senhasData, categoriasData] = await Promise.all([
-        listarSenhas(usuario.id),
-        listarCategorias(usuario.id),
+        listarSenhas(),
+        listarCategorias(),
       ]);
 
       setSenhas(senhasData);
@@ -97,7 +97,7 @@ function Dashboard() {
     setErro("");
 
     try {
-      await excluirSenha(id, usuario.id);
+      await excluirSenha(id);
       setMensagem("Senha excluída com sucesso.");
       await carregarDados();
     } catch (error) {
@@ -136,7 +136,7 @@ function Dashboard() {
     setErro("");
 
     try {
-      await excluirCategoria(id, usuario.id);
+      await excluirCategoria(id);
       setMensagem("Categoria excluída com sucesso.");
 
       if (categoriaFiltro === String(id)) {

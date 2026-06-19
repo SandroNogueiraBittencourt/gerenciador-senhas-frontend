@@ -1,7 +1,7 @@
 import api from "./api";
 
-export async function listarSenhas(usuarioId) {
-  const response = await api.get(`/passwords?usuarioId=${usuarioId}`);
+export async function listarSenhas() {
+  const response = await api.get("/passwords");
   return response.data;
 }
 
@@ -15,6 +15,6 @@ export async function atualizarSenha(id, dados) {
   return response.data;
 }
 
-export async function excluirSenha(id, usuarioId) {
-  await api.delete(`/passwords/${id}?usuarioId=${usuarioId}`);
+export async function excluirSenha(id) {
+  await api.delete(`/passwords/${id}`);
 }

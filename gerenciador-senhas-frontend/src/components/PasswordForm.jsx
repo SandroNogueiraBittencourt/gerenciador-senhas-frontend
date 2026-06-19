@@ -57,7 +57,6 @@ function ItemCriterio({ valido, texto }) {
 
 function PasswordForm({
   categorias,
-  usuarioId,
   senhaEditando,
   onSalvar,
   onCancelar,
@@ -106,7 +105,6 @@ function PasswordForm({
 
     const dados = {
       ...form,
-      usuarioId,
       categoriaId: form.categoriaId ? Number(form.categoriaId) : null,
     };
 

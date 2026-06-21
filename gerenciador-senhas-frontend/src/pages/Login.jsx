@@ -17,6 +17,7 @@ function Login() {
   const [mfaPendente, setMfaPendente] = useState(false);
   const [erro, setErro] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [mensagemRecuperacao, setMensagemRecuperacao] = useState("");
 
   function alterarCampo(event) {
     const { name, value } = event.target;
@@ -160,10 +161,33 @@ function Login() {
         )}
 
         {!mfaPendente && (
-          <p className="auth-link">
-            Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
-          </p>
+          <>
+            <p className="auth-link">
+              Não tem conta? <Link to="/cadastro">Cadastre-se</Link>
+            </p>
+
+            <div className="forgot-password-area">
+              <button
+                type="button"
+                className="forgot-password-button"
+                onClick={() =>
+                  setMensagemRecuperacao(
+                    "Sentimos muito pela sua perda, mas por motivos de segurança não realizamos recuperação de senha de login!"
+                  )
+                }
+              >
+                Esqueceu senha?
+              </button>
+
+              {mensagemRecuperacao && (
+                <div className="alert alert-warning recovery-message">
+                  {mensagemRecuperacao}
+                </div>
+              )}
+            </div>
+          </>
         )}
+
       </section>
     </main>
   );

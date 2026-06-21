@@ -1057,4 +1057,33 @@ RESPONSIVIDADE FINAL
     flex-direction: column;
   }
 }
+/* =================================
+ESQUECEU SENHA
+====================================*/
+.forgot-password-area {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.forgot-password-button {
+  background: transparent;
+  color: var(--accent-dark);
+  font-weight: 800;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+.forgot-password-button:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.recovery-message {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
 

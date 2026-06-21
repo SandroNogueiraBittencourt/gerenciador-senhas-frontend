@@ -151,7 +151,6 @@ function Dashboard() {
     }
   }
 
-
   return (
     <main className="dashboard">
       <Header usuario={usuario} />
@@ -160,7 +159,6 @@ function Dashboard() {
         <aside className="sidebar">
           <PasswordForm
             categorias={categorias}
-            usuarioId={usuario.id}
             senhaEditando={senhaEditando}
             onSalvar={salvarSenha}
             onCancelar={() => setSenhaEditando(null)}
@@ -168,7 +166,6 @@ function Dashboard() {
 
           <CategoryManager
             categorias={categorias}
-            usuarioId={usuario.id}
             onCadastrar={adicionarCategoria}
             onAtualizar={editarCategoria}
             onExcluir={removerCategoria}

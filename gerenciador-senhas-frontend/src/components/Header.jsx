@@ -1,4 +1,4 @@
-import { LogOut } from "lucide-react";
+import { LogOut, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { logoutUsuario } from "../services/authService";
 import logoNexoVaultMinimalista from "../assets/logo-nexovault-minimalista-transparent.svg";
@@ -26,10 +26,21 @@ function Header({ usuario }) {
         </div>
       </div>
 
-      <button className="btn btn-outline" onClick={sair}>
-        <LogOut size={18} />
-        Sair
-      </button>
+      <div className="header-actions">
+        <button
+          className="btn btn-outline"
+          type="button"
+          onClick={() => navigate("/settings")}
+        >
+          <Settings size={18} />
+          Configurações
+        </button>
+
+        <button className="btn btn-outline" type="button" onClick={sair}>
+          <LogOut size={18} />
+          Sair
+        </button>
+      </div>
     </header>
   );
 }

@@ -51,3 +51,8 @@ export function logoutUsuario() {
   localStorage.removeItem(USUARIO_KEY);
   localStorage.removeItem(TOKEN_KEY);
 }
+
+
+export function atualizarUsuarioLogado(usuario) {
+  localStorage.setItem(USUARIO_KEY, JSON.stringify(usuario));
+}
